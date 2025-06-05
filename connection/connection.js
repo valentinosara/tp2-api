@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 
-const connection = new Sequelize("miercoles", "root", "root", {
+const connection = new Sequelize("trainnify", "root", "", {
   host: "localhost",
   dialect: "mysql",
-  port: 8889,//3306 para xamp// 1433 para sqlserver
+  port: 3306,
 });
 
 try {

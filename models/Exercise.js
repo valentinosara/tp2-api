@@ -1,20 +1,19 @@
 import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
 
-class Role extends Model {}
+class Exercise extends Model {}
 
-Role.init(
+Exercise.init(
   {
-    roleName: {
+    name: {
       type: DataTypes.STRING,
       allowNull:false,
-      defaultValue: "user",
     },
   },
   {
     sequelize: connection,
-    modelName: "Role",
+    modelName: "Exercise",
   }
 );
 
-export default Role;
+export default Exercise;

@@ -1,6 +1,8 @@
 import { Router } from "express";
 import rolesRoutes from "./rolesRoutes.js";
 import exerciseRoutes from "./exerciseRoutes.js";
+import movementRoutes from "./movementRoutes.js";
+import muscleRoutes from "./muscleRoutes.js";
 
 const routes= Router()
 

@@ -2,13 +2,13 @@
 import { Router } from "express";
 import MuscleController from "../controllers/MuscleController.js";
 
-const router = Router();
+const muscleRoutes = Router();
 const muscleController = new MuscleController();
 
-router.get("/", muscleController.getAllMuscles);
-router.get("/:id", muscleController.getMuscleById);
-router.post("/", muscleController.createMuscle);
-router.put("/:id", muscleController.updateMuscle);
-router.delete("/:id", muscleController.deleteMuscle);
+muscleRoutes.get("/", muscleController.getAllMuscles);
+muscleRoutes.get("/:id", muscleController.getMuscleById);
+muscleRoutes.post("/", muscleController.createMuscle);
+muscleRoutes.put("/:id", muscleController.updateMuscle);
+muscleRoutes.delete("/:id", muscleController.deleteMuscle);
 
-export default router;
+export default muscleRoutes;

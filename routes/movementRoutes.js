@@ -7,8 +7,8 @@ const movementRoutes = Router();
 
 movementRoutes.get("/", movementController.getAllMovements);
 movementRoutes.get("/:id", movementController.getMovementById);
-movementRoutes.post("/", movementController.createExercise);
-movementRoutes.put("/:id", movementController.updateExercise);
-movementRoutes.delete("/:id", movementController.deleteExercise);
+movementRoutes.post("/", movementController.createMovement);
+movementRoutes.put("/:id", movementController.updateMovement);
+movementRoutes.delete("/:id", movementController.deleteMovement);
 
 export default movementRoutes;

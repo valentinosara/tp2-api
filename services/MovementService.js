@@ -10,48 +10,34 @@ class MovementService {
   };
 
   getMovementById = async (id) => {
-    const exercise = await Movement.findByPk(id);
-    return exercise;
+    const movement = await Movement.findByPk(id);
+    return movement;
   };
 
 
-  createExercise = async (data) => {
-    const { name, musclesIds, movementId } = data;
+  createMovement = async (data) => {
+    const { name } = data;
 
-    const exercise = await Exercise.create({ name });
-
-    if (musclesIds && musclesIds.length > 0) {
-      await exercise.setMuscles(musclesIds);
-    }
-    if (movementId) {
-      await exercise.setMovement(movementId);
-    }
-    return exercise;
+    const movement = await Movement.create({ name });
+    return movement;
   };
 
-  updateExercise = async (id, data) => {
-    const exercise = await Exercise.findByPk(id);
-    if (!exercise) throw new Error("Ejercicio no encontrado");
+  updateMovement = async (id, data) => {
+    const movement = await Movement.findByPk(id);
+    if (!movement) throw new Error("Movimiento no encontrado");
 
-    const { name, musclesIds, movementId} = data;
+    const { name } = data;
 
-    await exercise.update({ name });
-
-    if (musclesIds) {
-      await exercise.setMuscles(musclesIds);
-    }
-    if (movementId) {
-      await exercise.setMovement(movementId);
-    }
-    return exercise;
+    await movement.update({ name });
+    return movement;
   };
 
-  deleteExercise = async (id) => {
-    const exercise = await Exercise.findByPk(id);
+  deleteMovement = async (id) => {
+    const movement = await Movement.findByPk(id);
 
-    if (!exercise) return null;
+    if (!movement) return null;
 
-    await exercise.destroy();
+    await movement.destroy();
 
     return true;
   };

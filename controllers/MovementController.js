@@ -22,8 +22,8 @@ class MovementController {
   getMovementById = async (req, res) => {
     try {
       const { id } = req.params;
+      console.log(id)
       const movement = await this.movementService.getMovementById(id);
-
       if (!movement) {
         return res.status(404).send({
           success: false,
@@ -33,7 +33,7 @@ class MovementController {
 
       res.status(200).send({
         success: true,
-        message: muscle,
+        message: movement,
       });
     } catch (error) {
       res.status(400).send({
@@ -43,17 +43,13 @@ class MovementController {
     }
   };
 
-  createExercise = async (req, res) => {
+  createMovement = async (req, res) => {
     try {
-      const { name, musclesIds, movementId } = req.body;
-      const exercise = await this.exerciseService.createExercise({
-        name,
-        musclesIds,
-        movementId
-      });
+      const { name } = req.body;
+      const movement = await this.movementService.createMovement({name});
       res.status(200).send({
         success: true,
-        message: exercise,
+        message: movement,
       });
     } catch (error) {
       res.status(400).send({
@@ -63,20 +59,16 @@ class MovementController {
     }
   };
 
-  updateExercise = async (req, res) => {
+  updateMovement = async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, musclesIds, movementId } = req.body;
+      const { name } = req.body;
 
-      const updatedExercise = await this.exerciseService.updateExercise(id, {
-        name,
-        musclesIds,
-        movementId
-      });
+      const updatedMovement = await this.movementService.updateMovement(id, {name});
 
       res.status(200).send({
         success: true,
-        message: updatedExercise,
+        message: updatedMovement,
       });
     } catch (error) {
       res.status(400).send({
@@ -86,22 +78,22 @@ class MovementController {
     }
   };
 
-  deleteExercise = async (req, res) => {
+  deleteMovement = async (req, res) => {
     try {
       const { id } = req.params;
 
-      const deleted = await this.exerciseService.deleteExercise(id);
+      const deleted = await this.movementService.deleteMovement(id);
 
       if (!deleted) {
         return res.status(404).send({
           success: false,
-          message: "Ejercicio no encontrado",
+          message: "Movimiento no encontrado",
         });
       }
 
       res.status(200).send({
         success: true,
-        message: "Ejercicio eliminado correctamente",
+        message: "Movimiento eliminado correctamente",
       });
     } catch (error) {
       res.status(400).send({

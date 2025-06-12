@@ -35,4 +35,4 @@ Exercise.hasOne(Movement, {
 })
 Movement.hasMany(Exercise)
 
-export {Routine, Day, Exercise, RoutineExercise}
+export {Muscle, Routine, Day, Exercise, RoutineExercise}

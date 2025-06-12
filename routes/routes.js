@@ -9,7 +9,7 @@ const routes= Router()
 routes.use("/exercise",exerciseRoutes)
 routes.use("/movement",movementRoutes)
 routes.use("/roles", rolesRoutes)
-routes.use("/muscles", muscleRoutes);
+routes.use("/muscle", muscleRoutes);
 
 
 export default routes

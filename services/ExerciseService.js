@@ -8,10 +8,10 @@ class ExerciseService {
       include: [
         {
           model: Muscle,
-          through: { attributes: [] }, // oculta la tabla intermedia
+          through: { attributes: [] },
         },
         {
-          model: Movement, // Si tu modelo tiene relación 1:N con Movement
+          model: Movement,
         }
       ],
       order: [['id', 'ASC']]
@@ -38,7 +38,7 @@ class ExerciseService {
 
 
   createExercise = async (data) => {
-    const { name, musclesIds, movementId } = data; // muscleIds es un array de IDs de músculos
+    const { name, musclesIds, movementId } = data;
 
     const exercise = await Exercise.create({ name });
 

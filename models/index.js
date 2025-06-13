@@ -7,15 +7,21 @@ import RoutineExercise from "./RoutineExercise.js";
 import User from "./User.js";
 
 //EJERCICIO - SERIES - REPS
-RoutineExercise.hasOne(Exercise,{
-     foreignKey:"id"
-})
-Exercise.hasMany(RoutineExercise)
+// Routine <--> RoutineExercise
+Routine.hasMany(RoutineExercise, {
+  foreignKey: 'routineId'
+});
+RoutineExercise.belongsTo(Routine, {
+  foreignKey: 'routineId'
+});
 
-RoutineExercise.hasOne(Routine,{
-     foreignKey:"id"
-})
-Routine.hasMany(RoutineExercise)
+// Exercise <--> RoutineExercise
+Exercise.hasMany(RoutineExercise, {
+  foreignKey: 'exerciseId'
+});
+RoutineExercise.belongsTo(Exercise, {
+  foreignKey: 'exerciseId'
+});
 
 Routine.hasOne(User, {
      foreignKey: "id"

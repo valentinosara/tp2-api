@@ -6,15 +6,13 @@ class RoutineService {
       include: [
         {
           model: Day,
-          attributes: ['name'],
+          attributes: ['id', 'name'],
           through: { attributes: [] }
         },
         {
           model: RoutineExercise,
           include: [
             {
-              //ERROR ACÁ
-              //VER XQ ESTO ESTA DEVOLVIENDO NULL
               model: Exercise,
               attributes: ['id', 'name']
             }
@@ -22,6 +20,7 @@ class RoutineService {
           attributes: ['id', 'series', 'reps']
         }
       ],
+      attributes: ['id', 'name', 'rest_bt_series', 'rest_bt_exercises', 'UserId'],
       order: [['id', 'ASC']]
     });
     return routines;
@@ -32,6 +31,7 @@ class RoutineService {
       include: [
         {
           model: Day,
+          attributes: ['id', 'name'],
           through: { attributes: [] }
         },
         {
@@ -45,6 +45,7 @@ class RoutineService {
           attributes: ['id', 'series', 'reps']
         }
       ],
+      attributes: ['id', 'name', 'rest_bt_series', 'rest_bt_exercises', 'UserId'],
       order: [['id', 'ASC']]
     });
 
@@ -67,8 +68,8 @@ class RoutineService {
     for (const re of routineExercises) {
       console.log(re)
       await RoutineExercise.create({
-        RoutineId: routine.id,
-        ExerciseId: re.exerciseId,
+        routineId: routine.id,
+        exerciseId: re.exerciseId,
         series: re.series,
         reps: re.reps
       });

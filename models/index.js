@@ -24,8 +24,8 @@ User.hasMany(Routine)
 
 
 // RELACIÓN N:M entre Routine y Day ---> Muchos a muchos
-Routine.belongsToMany(Day, { through: "DayRoutines", foreignKey: "id"});
-Day.belongsToMany(Routine, { through: "DayRoutines", foreignKey: "id"});
+Routine.belongsToMany(Day, { through: "DayRoutines"});
+Day.belongsToMany(Routine, { through: "DayRoutines"});
 
 Exercise.belongsToMany(Muscle, { through: "ExerciseMuscle" });
 Muscle.belongsToMany(Exercise, { through: "ExerciseMuscle" });

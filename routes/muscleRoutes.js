@@ -1,4 +1,3 @@
-// routes/muscleRoutes.js
 import { Router } from "express";
 import MuscleController from "../controllers/MuscleController.js";
 

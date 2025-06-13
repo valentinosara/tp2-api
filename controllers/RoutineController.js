@@ -28,7 +28,7 @@ class RoutineController {
       if (!routine) {
         return res.status(404).send({
           success: false,
-          message: "Ejercicio no encontrado",
+          message: "Rutina no encontrada",
         });
       }
 
@@ -61,52 +61,55 @@ class RoutineController {
 
 
   updateRoutine = async (req, res) => {
-    // try {
-    //   const { id } = req.params;
-    //   const { name, musclesIds, movementId } = req.body;
+    try {
+      const { id } = req.params;
+      const {
+        name,
+        rest_bt_exercises,
+        rest_bt_series,
+        daysIds,
+        routineExercises
+      } = req.body;
 
-    //   const updatedRoutine = await this.routineService.updateRoutine(id, {
-    //     name,
-    //     musclesIds,
-    //     movementId
-    //   });
+      const routine = await this.routineService.updateRoutine(id, {
+        name,
+        rest_bt_exercises,
+        rest_bt_series,
+        daysIds,
+        routineExercises
+      });
 
-    //   res.status(200).send({
-    //     success: true,
-    //     message: updatedRoutine,
-    //   });
-    // } catch (error) {
-    //   res.status(400).send({
-    //     success: false,
-    //     message: error.message,
-    //   });
-    // }
+      res.status(200).send({
+        success: true,
+        message: routine,
+      });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
   };
+
 
   deleteRoutine = async (req, res) => {
-    // try {
-    //   const { id } = req.params;
+    try {
+      const { id } = req.params;
 
-    //   const deleted = await this.routineService.deleteRoutine(id);
+      const result = await this.routineService.deleteRoutine(id);
 
-    //   if (!deleted) {
-    //     return res.status(404).send({
-    //       success: false,
-    //       message: "Ejercicio no encontrado",
-    //     });
-    //   }
-
-    //   res.status(200).send({
-    //     success: true,
-    //     message: "Ejercicio eliminado correctamente",
-    //   });
-    // } catch (error) {
-    //   res.status(400).send({
-    //     success: false,
-    //     message: error.message,
-    //   });
-    // }
+      res.status(200).send({
+        success: true,
+        message: result.message,
+      });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
   };
+
 
 }
 

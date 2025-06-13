@@ -7,7 +7,6 @@ import RoutineExercise from "./RoutineExercise.js";
 import User from "./User.js";
 
 //EJERCICIO - SERIES - REPS
-// Routine <--> RoutineExercise
 Routine.hasMany(RoutineExercise, {
   foreignKey: 'routineId'
 });
@@ -15,7 +14,6 @@ RoutineExercise.belongsTo(Routine, {
   foreignKey: 'routineId'
 });
 
-// Exercise <--> RoutineExercise
 Exercise.hasMany(RoutineExercise, {
   foreignKey: 'exerciseId'
 });
@@ -41,4 +39,4 @@ Exercise.hasOne(Movement, {
 })
 Movement.hasMany(Exercise)
 
-export {Muscle, Routine, Day, Exercise, RoutineExercise}
+export {Muscle, Routine, Day, Exercise, RoutineExercise, User}

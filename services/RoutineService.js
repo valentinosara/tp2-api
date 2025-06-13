@@ -1,6 +1,8 @@
 import { Day, Exercise, Routine, RoutineExercise } from "../models/index.js";
 
 class RoutineService {
+
+  //Ver que la respuesta de los GETS devualva el objeto usuario
   getAllRoutines = async () => {
     const routines = await Routine.findAll({
       include: [
@@ -52,19 +54,18 @@ class RoutineService {
     return routine;
   };
 
-  createRoutine = async ({ name, rest_bt_exercises, rest_bt_series, daysIds, routineExercises }) => {
+  createRoutine = async ({ name, rest_bt_exercises, rest_bt_series, daysIds, UserId, routineExercises }) => {
     const routine = await Routine.create({
       name,
       rest_bt_exercises,
-      rest_bt_series
+      rest_bt_series,
+      UserId
     });
 
-    // Asociar días a la rutina
     if (daysIds?.length > 0) {
       await routine.addDays(daysIds);
     }
 
-    // Crear registros en RoutineExercise
     for (const re of routineExercises) {
       console.log(re)
       await RoutineExercise.create({
@@ -78,35 +79,74 @@ class RoutineService {
     return routine;
   };
 
+  updateRoutine = async (id, { name, rest_bt_exercises, rest_bt_series, daysIds, routineExercises }) => {
+    const routine = await Routine.findByPk(id);
 
+    if (!routine) {
+      throw new Error("Routine not found");
+    }
 
-  updateRoutine = async (id, data) => {
-    // const routine = await Routine.findByPk(id);
-    // if (!routine) throw new Error("Ejercicio no encontrado");
+    routine.name = name ?? routine.name;
+    routine.rest_bt_exercises = rest_bt_exercises ?? routine.rest_bt_exercises;
+    routine.rest_bt_series = rest_bt_series ?? routine.rest_bt_series;
+    await routine.save();
 
-    // const { name, musclesIds, movementId} = data;
+    if (daysIds?.length >= 0) {
+      await routine.setDays(daysIds);
+    }
 
-    // await routine.update({ name });
+    await RoutineExercise.destroy({ where: { routineId: id } });
 
-    // if (musclesIds) {
-    //   await routine.setMuscles(musclesIds);
-    // }
-    // if (movementId) {
-    //   await routine.setMovement(movementId);
-    // }
-    // return routine;
+    for (const re of routineExercises) {
+      await RoutineExercise.create({
+        routineId: id,
+        exerciseId: re.exerciseId,
+        series: re.series,
+        reps: re.reps
+      });
+    }
+
+    return routine;
   };
 
   deleteRoutine = async (id) => {
-    // const routine = await Routine.findByPk(id);
+    const routine = await Routine.findByPk(id);
 
-    // if (!routine) return null;
+    if (!routine) {
+      throw new Error("Routine not found");
+    }
 
-    // await routine.destroy();
+    await RoutineExercise.destroy({
+      where: { routineId: id }
+    });
 
-    // return true;
+    await routine.setDays([]);
+
+    await routine.destroy();
+
+    return { message: "Routine deleted successfully" };
   };
-
 }
 
 export default RoutineService;
+
+//EJEMPLO DE REQ ESPERADO PARA CREATE/UPDATE:
+//{
+//   "name": "Pull day",
+//   "rest_bt_exercises": 180,
+//   "rest_bt_series": 120,
+//   "daysIds": [1, 3],
+//   "UserId" : 1
+//   "routineExercises": [
+//     {
+//       "exerciseId": 2,
+//       "series": 5,
+//       "reps": 10
+//     },
+//     {
+//       "exerciseId": 2,
+//       "series": 5,
+//       "reps": 10
+//     }
+//   ]
+// }

@@ -62,8 +62,10 @@ class ExerciseService {
     if (musclesIds) {
       await exercise.setMuscles(musclesIds);
     }
+    console.log(movementId)
     if (movementId) {
-      await exercise.setMovement(movementId);
+      exercise.MovementId = movementId;
+      await exercise.save()
     }
     return exercise;
   };

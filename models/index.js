@@ -34,9 +34,6 @@ Day.belongsToMany(Routine, { through: "DayRoutines"});
 Exercise.belongsToMany(Muscle, { through: "ExerciseMuscle" });
 Muscle.belongsToMany(Exercise, { through: "ExerciseMuscle" });
 
-Exercise.hasOne(Movement, {
-     foreignKey: "id"
-})
-Movement.hasMany(Exercise)
+Exercise.belongsTo(Movement)
 
 export {Muscle, Routine, Day, Exercise, RoutineExercise, User}

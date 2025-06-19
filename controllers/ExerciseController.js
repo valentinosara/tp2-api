@@ -46,11 +46,11 @@ class ExerciseController {
 
   createExercise = async (req, res) => {
     try {
-      const { name, musclesIds, movementId } = req.body;
+      const { name, musclesIds, MovementId } = req.body;
       const exercise = await this.exerciseService.createExercise({
         name,
         musclesIds,
-        movementId
+        MovementId
       });
       res.status(200).send({
         success: true,
@@ -67,12 +67,12 @@ class ExerciseController {
   updateExercise = async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, musclesIds, movementId } = req.body;
+      const { name, musclesIds, MovementId } = req.body;
 
       const updatedExercise = await this.exerciseService.updateExercise(id, {
         name,
         musclesIds,
-        movementId
+        MovementId
       });
 
       res.status(200).send({

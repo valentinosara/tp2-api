@@ -1,5 +1,6 @@
 import { User } from "../models/index.js";
 import bcrypt from "bcrypt";
+import { generateToken, verifyToken } from "../utils/jwt.js";
 
 class UserServices {
   getAllUsers = async () => {
@@ -52,6 +53,27 @@ class UserServices {
     return { message: "User deleted successfully" };
   };
 
+  login = async (data) => {
+    const {mail, pass} = data;
+    const user = await User.findOne({
+      where: {mail},
+    })
+    if(!user) throw new Error("User not found");
+    const comparePass = await user.compare(pass);
+    if(!comparePass) throw new Error("Wrong Password");
+    
+    const payload={
+      id: user.id,
+      name: user.name
+    };
+    const token = generateToken(payload);
+    return token
+  }
+
+  me = async (token) => {
+    const user = verifyToken(token)
+    return user;
+  }
 }
 
 export default UserServices;

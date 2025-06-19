@@ -2,7 +2,12 @@ import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
 import bcrypt from "bcrypt";
 
-class User extends Model {}
+class User extends Model {
+  compare=async(flatPass)=>{
+    const comparePass = await bcrypt.compare(flatPass, this.pass);
+    return comparePass;
+  }
+}
 
 User.init(
   {

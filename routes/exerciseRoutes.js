@@ -1,9 +1,12 @@
 import { Router } from "express";
 import ExerciseController from "../controllers/ExerciseController.js";
+import authMiddleware from "../middleWares/userMiddlewares.js";
 
 const exerciseController = new ExerciseController();
 
 const exerciseRoutes = Router();
+
+exerciseRoutes.use(authMiddleware);
 
 exerciseRoutes.get("/", exerciseController.getAllExercises);
 exerciseRoutes.get("/:id", exerciseController.getExerciseById);

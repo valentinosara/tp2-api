@@ -90,6 +90,38 @@ class UserController {
     }
   };
 
+  login = async (req, res) => {
+    try {
+      const { mail, pass } = req.body;
+      const token = await this.userService.login({mail,pass});
+      res.cookie("login", token)
+      res.status(200).send({
+        success: true,
+        message: "User logued succesfully",
+      });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  me = async (req, res) => {
+    try {
+      const { login } = req.cookies;
+      const user = await this.userService.me(login);
+      res.status(200).send({
+        success: true,
+        message: user,
+      });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
 }
 
 export default UserController;

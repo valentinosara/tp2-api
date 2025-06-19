@@ -1,8 +1,10 @@
 import { Day, Exercise, Routine, RoutineExercise } from "../models/index.js";
+import Movement from "../models/Movement.js";
 
 class RoutineService {
 
-  //Ver que la respuesta de los GETS devualva el objeto usuario
+  //Ver que la respuesta de los GETS devualva el objeto usuario y alguna cosa mas que se desee (El movement de cada ejercicio, por ejemplo)
+  //Intentar romper el sistema (Ingresar tipos de datos erroneos y foreing keys inexistentes), y en caso de dar errores, especificar que esta sucediendo
   getAllRoutines = async () => {
     const routines = await Routine.findAll({
       include: [
@@ -41,6 +43,12 @@ class RoutineService {
           include: [
             {
               model: Exercise,
+              include: [
+                {
+                  model: Movement,
+                  attributes: ['name']
+                }
+              ],
               attributes: ['id', 'name']
             }
           ],
@@ -131,12 +139,12 @@ class RoutineService {
 export default RoutineService;
 
 //EJEMPLO DE REQ ESPERADO PARA CREATE/UPDATE:
-//{
+// {
 //   "name": "Pull day",
 //   "rest_bt_exercises": 180,
 //   "rest_bt_series": 120,
 //   "daysIds": [1, 3],
-//   "UserId" : 1
+//   "UserId" : 1,
 //   "routineExercises": [
 //     {
 //       "exerciseId": 2,

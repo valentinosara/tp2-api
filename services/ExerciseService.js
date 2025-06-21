@@ -12,8 +12,10 @@ class ExerciseService {
         },
         {
           model: Movement,
+          attributes: ['id', 'name']
         }
       ],
+      attributes: ['id', 'name'],
       order: [['id', 'ASC']]
     });
 
@@ -29,8 +31,10 @@ class ExerciseService {
         },
         {
           model: Movement,
+          attributes: ['id', 'name']
         },
       ],
+      attributes: ['id', 'name']
     });
 
     return exercise;
@@ -38,15 +42,12 @@ class ExerciseService {
 
 
   createExercise = async (data) => {
-    const { name, musclesIds, movementId } = data;
+    const { name, musclesIds, MovementId } = data;
 
-    const exercise = await Exercise.create({ name });
+    const exercise = await Exercise.create({ name, MovementId });
 
     if (musclesIds && musclesIds.length > 0) {
       await exercise.setMuscles(musclesIds);
-    }
-    if (movementId) {
-      await exercise.setMovement(movementId);
     }
     return exercise;
   };
@@ -55,17 +56,12 @@ class ExerciseService {
     const exercise = await Exercise.findByPk(id);
     if (!exercise) throw new Error("Ejercicio no encontrado");
 
-    const { name, musclesIds, movementId} = data;
-
-    await exercise.update({ name });
+    const { name, musclesIds, MovementId} = data;
+    console.log(data);
+    await exercise.update({ name, MovementId });
 
     if (musclesIds) {
       await exercise.setMuscles(musclesIds);
-    }
-    console.log(movementId)
-    if (movementId) {
-      exercise.MovementId = movementId;
-      await exercise.save()
     }
     return exercise;
   };

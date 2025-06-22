@@ -1,6 +1,7 @@
 import { Exercise } from "../models/index.js";
 import Movement from "../models/Movement.js";
 import Muscle from "../models/Muscle.js";
+import { Sequelize } from "sequelize";
 
 class ExerciseService {
   getAllExercises = async () => {
@@ -8,14 +9,21 @@ class ExerciseService {
       include: [
         {
           model: Muscle,
-          through: { attributes: [] },
+          attributes: ['id', 'name'],
+          through: { attributes: [] }
         },
         {
           model: Movement,
-          attributes: ['id', 'name']
+          attributes: []
         }
       ],
-      attributes: ['id', 'name'],
+      attributes: [
+        'id',
+        'name',
+        [Sequelize.col('Movement.name'), 'movement']
+      ],
+      raw: true,
+      nest: true,
       order: [['id', 'ASC']]
     });
 

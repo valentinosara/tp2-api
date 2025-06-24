@@ -2,7 +2,12 @@ import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
 import bcrypt from "bcrypt";
 
-class User extends Model {}
+class User extends Model {
+  compare=async(flatPass)=>{
+    const comparePass = await bcrypt.compare(flatPass, this.pass);
+    return comparePass;
+  }
+}
 
 User.init(
   {
@@ -24,7 +29,6 @@ User.init(
 );
 
 User.beforeCreate(async (user) => {
-  // console.log(`🚀 ~ User.beforeCreate ~ user:`, user)
   const salt = await bcrypt.genSalt(10);
   console.log(`🚀 ~ User.beforeCreate ~ salt:`, salt);
   const hash = await bcrypt.hash(user.pass, salt);

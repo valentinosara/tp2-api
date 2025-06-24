@@ -1,15 +1,14 @@
-import ExerciseService from "../services/ExerciseService.js";
+import MovementService from "../services/MovementService.js";
 
-class ExerciseController {
-  exerciseService = new ExerciseService();
+class MovementController {
+  movementService = new MovementService();
 
-  getAllExercises = async (req, res) => {
+  getAllMovements = async (req, res) => {
     try {
-      const exercises = await this.exerciseService.getAllExercises();
-
+      const muscles = await this.movementService.getAllMovements();
       res.status(200).send({
         success: true,
-        message: exercises,
+        message: muscles,
       });
     } catch (error) {
       res.status(400).send({
@@ -19,22 +18,22 @@ class ExerciseController {
     }
   };
 
-  getExerciseById = async (req, res) => {
+
+  getMovementById = async (req, res) => {
     try {
       const { id } = req.params;
-
-      const exercise = await this.exerciseService.getExerciseById(id);
-
-      if (!exercise) {
+      console.log(id)
+      const movement = await this.movementService.getMovementById(id);
+      if (!movement) {
         return res.status(404).send({
           success: false,
-          message: "Ejercicio no encontrado",
+          message: "Movimiento no encontrado",
         });
       }
 
       res.status(200).send({
         success: true,
-        message: exercise,
+        message: movement,
       });
     } catch (error) {
       res.status(400).send({
@@ -44,17 +43,13 @@ class ExerciseController {
     }
   };
 
-  createExercise = async (req, res) => {
+  createMovement = async (req, res) => {
     try {
-      const { name, musclesIds, MovementId } = req.body;
-      const exercise = await this.exerciseService.createExercise({
-        name,
-        musclesIds,
-        MovementId
-      });
+      const { name } = req.body;
+      const movement = await this.movementService.createMovement({name});
       res.status(200).send({
         success: true,
-        message: exercise,
+        message: movement,
       });
     } catch (error) {
       res.status(400).send({
@@ -64,20 +59,16 @@ class ExerciseController {
     }
   };
 
-  updateExercise = async (req, res) => {
+  updateMovement = async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, musclesIds, MovementId } = req.body;
+      const { name } = req.body;
 
-      const updatedExercise = await this.exerciseService.updateExercise(id, {
-        name,
-        musclesIds,
-        MovementId
-      });
+      const updatedMovement = await this.movementService.updateMovement(id, {name});
 
       res.status(200).send({
         success: true,
-        message: updatedExercise,
+        message: updatedMovement,
       });
     } catch (error) {
       res.status(400).send({
@@ -87,22 +78,22 @@ class ExerciseController {
     }
   };
 
-  deleteExercise = async (req, res) => {
+  deleteMovement = async (req, res) => {
     try {
       const { id } = req.params;
 
-      const deleted = await this.exerciseService.deleteExercise(id);
+      const deleted = await this.movementService.deleteMovement(id);
 
       if (!deleted) {
         return res.status(404).send({
           success: false,
-          message: "Ejercicio no encontrado",
+          message: "Movimiento no encontrado",
         });
       }
 
       res.status(200).send({
         success: true,
-        message: "Ejercicio eliminado correctamente",
+        message: "Movimiento eliminado correctamente",
       });
     } catch (error) {
       res.status(400).send({
@@ -114,4 +105,4 @@ class ExerciseController {
 
 }
 
-export default ExerciseController;
+export default MovementController;

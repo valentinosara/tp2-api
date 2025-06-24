@@ -14,16 +14,13 @@ class ExerciseService {
         },
         {
           model: Movement,
-          attributes: []
+          attributes: ['name']
         }
       ],
       attributes: [
         'id',
-        'name',
-        [Sequelize.col('Movement.name'), 'movement']
+        'name'
       ],
-      raw: true,
-      nest: true,
       order: [['id', 'ASC']]
     });
 

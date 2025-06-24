@@ -115,3 +115,9 @@ class ExerciseController {
 }
 
 export default ExerciseController;
+
+// {
+//   "name": "Pull",
+//   "MovementId" : 1,
+//   "musclesIds" : [1, 2, 3]
+// }

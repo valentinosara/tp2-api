@@ -1,34 +1,55 @@
 import { Day, Exercise, Routine, RoutineExercise } from "../models/index.js";
 import Movement from "../models/Movement.js";
+import Muscle from "../models/Muscle.js";
+import { Sequelize } from "sequelize";
 
 class RoutineService {
 
   //Ver que la respuesta de los GETS devualva el objeto usuario y alguna cosa mas que se desee (El movement de cada ejercicio, por ejemplo)
   //Intentar romper el sistema (Ingresar tipos de datos erroneos y foreing keys inexistentes), y en caso de dar errores, especificar que esta sucediendo
   getAllRoutines = async () => {
-    const routines = await Routine.findAll({
-      include: [
-        {
-          model: Day,
-          attributes: ['id', 'name'],
-          through: { attributes: [] }
-        },
-        {
-          model: RoutineExercise,
-          include: [
-            {
-              model: Exercise,
-              attributes: ['id', 'name']
-            }
-          ],
-          attributes: ['id', 'series', 'reps']
-        }
-      ],
-      attributes: ['id', 'name', 'rest_bt_series', 'rest_bt_exercises', 'UserId'],
-      order: [['id', 'ASC']]
-    });
-    return routines;
-  };
+  const routines = await Routine.findAll({
+    include: [
+      {
+        model: Day,
+        attributes: ["id", "name"],
+        through: { attributes: [] }
+      },
+      {
+        model: RoutineExercise,
+        attributes: ["id", "series", "reps"],
+        include: [
+          {
+            model: Exercise,
+            attributes: [
+              "id",
+              "name",
+              // ⬅️ movement como atributo plano
+              [Sequelize.literal("`RoutineExercises->Exercise->Movement`.`name`"), "movement"]
+            ],
+            include: [
+              {
+                model: Movement,
+                attributes: []        // no mostrar objeto Movement
+              },
+              {
+                model: Muscle,
+                attributes: ["id", "name"],
+                through: { attributes: [] }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    attributes: ["id", "name", "rest_bt_series", "rest_bt_exercises", "UserId"],
+    raw: true,
+    nest: true,
+    order: [["id", "ASC"]]
+  });
+
+  return routines;
+};
 
   getRoutineById = async (id) => {
     const routine = await Routine.findByPk(id,{

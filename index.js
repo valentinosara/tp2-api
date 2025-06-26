@@ -13,6 +13,10 @@ app.use(cookieParser())
 
 app.use(routes)
 
+app.use((req, res, next)=>{
+  res.status(400).send("Bad request")
+})
+
 await connection.sync({force:false})
 
 app.listen(SERVER_PORT, ()=>{

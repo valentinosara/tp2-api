@@ -5,7 +5,16 @@ class Movement extends Model {}
 
 Movement.init(
   {
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        is: {
+          args: [/^[A-Za-z\s]+$/],
+          msg: "El nombre solo puede contener letras y espacios",
+        },
+      },
+    },
   },
   {
     sequelize: connection,

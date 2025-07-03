@@ -11,15 +11,34 @@ class User extends Model {
 
 User.init(
   {
-    name: DataTypes.STRING(50),
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        is: {
+          args: [/^[A-Za-z\s]+$/],
+          msg: "El nombre solo puede contener letras y espacios",
+        },
+      },
+    },
     mail: {
       type: DataTypes.STRING,
       allowNull: false,
-      mail: true,
+      validate: {
+        isEmail: {
+          msg: "El mail debe tener un formato válido",
+        },
+      },
     },
     pass: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: {
+          args: [8],
+          msg: "La contraseña debe tener al menos 8 caracteres",
+        },
+      },
     }
   },
   {
